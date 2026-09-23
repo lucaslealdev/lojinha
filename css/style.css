@@ -16,7 +16,7 @@ h1{font-size:1.8rem;margin:0 0 4px}
 .card .body{padding:14px 16px}
 .card h2{font-size:1.05rem;margin:0 0 4px}
 .card p{margin:0;color:var(--muted);font-size:.9rem}
-.tag{display:inline-block;margin-top:8px;font-size:.78rem;padding:2px 8px;border-radius:99px;border:1px solid var(--border);color:var(--muted)}
+.tag{display:inline-block;margin-top:8px;font-size:.78rem;padding:2px 8px;border-radius:12px;border:1px solid var(--border);color:var(--muted)}
 .product{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start}
 @media(max-width:780px){.product{grid-template-columns:1fr}}
 .gallery .main{width:100%;aspect-ratio:1;object-fit:cover;border-radius:12px;border:1px solid var(--border);background:#eee}

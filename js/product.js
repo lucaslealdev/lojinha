@@ -26,7 +26,7 @@ loadProducts().then(list => {
         <h1>${esc(p.nome)}</h1>
         <p class="lead">${esc(p.subtitulo)}</p>
         <div class="price">${brl(p.preco)}</div>
-        <span class="tag">Sob encomenda · prazo: ${esc(p.prazo)}</span>
+        <span class="tag">Sob encomenda · ${esc(p.prazo)} para confecção, contados a partir do início da produção</span>
         <p>${esc(p.descricao)}</p>
         <ul class="det">${p.detalhes.map(d => `<li>${esc(d)}</li>`).join("")}</ul>
         <form id="order" novalidate>

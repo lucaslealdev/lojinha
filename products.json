@@ -11,7 +11,7 @@
       "Feita sob encomenda"
     ],
     "preco": 139.00,
-    "prazo": "10 dias para confecção",
+    "prazo": "10 dias",
     "imagens": ["images/joabinho-1.jpg", "images/joabinho-2.jpg"],
     "disponivel": true
   }

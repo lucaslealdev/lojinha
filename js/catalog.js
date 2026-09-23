@@ -6,7 +6,7 @@ loadProducts().then(list => {
       <div class="body">
         <h2>${esc(p.nome)}</h2>
         <p>${esc(p.subtitulo)}</p>
-        <span class="tag">Sob encomenda · ${esc(p.prazo)}</span>
+        <span class="tag">Sob encomenda · ${esc(p.prazo)} para confecção</span>
       </div>
     </a>`).join("") || "<p>Nenhum produto disponível no momento.</p>";
 }).catch(() => { document.getElementById("grid").textContent = "Não foi possível carregar o catálogo."; });
