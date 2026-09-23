@@ -5,7 +5,7 @@ let widgetId = null;
 function mountTurnstile() {
   const el = document.getElementById("ts");
   if (widgetId !== null || !el || !window.turnstile) return;
-  widgetId = turnstile.render(el, { sitekey: CONFIG.TURNSTILE_SITEKEY, language: "pt-br" });
+  widgetId = turnstile.render(el, { sitekey: CONFIG.TURNSTILE_SITEKEY, action: "pedido", language: "pt-br" });
 }
 window.onTurnstile = mountTurnstile;
 

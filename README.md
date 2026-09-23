@@ -18,7 +18,8 @@ Ao alterar o script depois, use **Implantar > Gerenciar implantações > editar 
 1. Em dash.cloudflare.com > Turnstile, crie um site com o domínio onde o site será publicado (e `localhost` para testes).
 2. Cole a **site key** (pública) em `js/config.js` > `TURNSTILE_SITEKEY`.
 3. No Apps Script: **Configurações do projeto > Propriedades do script > Adicionar** `TURNSTILE_SECRET` = a **secret key** (privada, nunca no repositório).
-4. Os limites globais (`MAX_POR_HORA`, `MAX_POR_DIA`) ficam no topo do `Code.gs`.
+4. (Opcional, recomendado) Propriedade do script `TURNSTILE_HOSTNAMES` = domínio(s) do site, separados por vírgula (ex.: `lucasleal.dev`). Sem ela o domínio do token não é checado.
+5. Os limites globais (`MAX_POR_HORA`, `MAX_POR_DIA`) ficam no topo do `Code.gs`.
 
 ## 2. Publicar (GitHub Pages)
 

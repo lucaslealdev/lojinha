@@ -58,17 +58,25 @@ function brl(n) {
 }
 
 // Confere o token do Cloudflare Turnstile. A chave secreta fica em
-// Configurações do projeto > Propriedades do script > TURNSTILE_SECRET
+// Configurações do projeto > Propriedades do script > TURNSTILE_SECRET.
+// Opcional: TURNSTILE_HOSTNAMES (lista separada por vírgula, ex.: "lucasleal.dev")
+// restringe em quais domínios o token pode ter sido gerado.
+const TURNSTILE_ACTION = "pedido";
+
 function verifyCaptcha(token) {
-  const secret = PropertiesService.getScriptProperties().getProperty("TURNSTILE_SECRET");
+  const props = PropertiesService.getScriptProperties();
+  const secret = props.getProperty("TURNSTILE_SECRET");
   if (!secret) throw new Error("captcha não configurado");
   if (typeof token !== "string" || !token || token.length > 2048) throw new Error("captcha");
   const res = UrlFetchApp.fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
     method: "post", payload: { secret: secret, response: token }, muteHttpExceptions: true
   });
-  let ok = false;
-  try { ok = JSON.parse(res.getContentText()).success === true; } catch (e) {}
-  if (!ok) throw new Error("captcha");
+  let r = {};
+  try { r = JSON.parse(res.getContentText()); } catch (e) {}
+  const hosts = (props.getProperty("TURNSTILE_HOSTNAMES") || "").split(",").map(h => h.trim()).filter(Boolean);
+  if (r.success !== true || r.action !== TURNSTILE_ACTION || (hosts.length && hosts.indexOf(r.hostname) === -1)) {
+    throw new Error("captcha");
+  }
 }
 
 // Teto global de pedidos por hora e por dia (protege a cota de e-mails)
