@@ -32,6 +32,7 @@ loadProducts().then(list => {
         <form id="order" novalidate>
           <h2>Fazer encomenda</h2>
           <p class="hint">Preencha seus dados e entrarei em contato para combinar produção, prazo e pagamento.</p>
+          <p class="hint">Pode haver fila de produção, então a confecção pode não começar imediatamente. Nenhum pagamento é exigido antes de a encomenda estar pronta.</p>
           <label for="nome">Nome</label>
           <input id="nome" name="nome" autocomplete="name" required>
           <label for="email">E-mail</label>
