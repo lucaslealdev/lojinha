@@ -117,3 +117,11 @@ function getSheet() {
 function json(o) {
   return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON);
 }
+
+// Rodar UMA vez manualmente no editor (menu de funções > autorizar > Executar)
+// para conceder todas as permissões que o script usa. Não altera nada.
+function autorizar() {
+  UrlFetchApp.fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", { method: "post", muteHttpExceptions: true });
+  MailApp.getRemainingDailyQuota();
+  Logger.log("Planilha: " + SpreadsheetApp.getActive().getName() + " — permissões OK");
+}
