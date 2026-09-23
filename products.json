@@ -1,0 +1,18 @@
+[
+  {
+    "id": "joabinho",
+    "nome": "Joabinho Saiyajin",
+    "subtitulo": "Figura decorativa do Joab, do canal Fala Caras",
+    "descricao": "Figura decorativa em resina no estilo colecionável, com o Joab em seu clássico cosplay de saiyajin. Impressa em resina e pintada à mão, tem base transparente para exposição.",
+    "detalhes": [
+      "Altura: 15,6 cm",
+      "Material: resina, pintada à mão",
+      "Base transparente inclusa",
+      "Feita sob encomenda"
+    ],
+    "preco": 139.00,
+    "prazo": "10 dias para confecção",
+    "imagens": ["images/joabinho-1.jpg", "images/joabinho-2.jpg"],
+    "disponivel": true
+  }
+]
