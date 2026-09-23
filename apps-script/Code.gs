@@ -21,17 +21,20 @@ function doPost(e) {
       checkGlobalLimit();
       const sheet = getSheet();
       sheet.appendRow([new Date(), d.produto, d.quantidade, d.nome, d.email, d.telefone, d.preco == null ? "" : d.preco, "Novo", ""]);
+      sheet.getRange(sheet.getLastRow(), 7).setNumberFormat('"R$" #,##0.00');
     } finally { lock.releaseLock(); }
 
     const owner = Session.getEffectiveUser().getEmail();
-    const resumo = "Produto: " + d.produto + "\nQuantidade: " + d.quantidade +
-      "\nNome: " + d.nome + "\nE-mail: " + d.email + "\nTelefone: " + d.telefone;
+    const itens = "Produto: " + d.produto + "\nQuantidade: " + d.quantidade +
+      "\nPreço unitário: " + (d.preco == null ? "sob consulta" : brl(d.preco)) +
+      (d.preco == null ? "" : "\nTotal: " + brl(d.preco * d.quantidade));
+    const resumo = itens + "\nNome: " + d.nome + "\nE-mail: " + d.email + "\nTelefone: " + d.telefone;
 
     MailApp.sendEmail({ to: owner, replyTo: d.email, subject: "Novo pedido: " + d.produto + " (" + d.nome + ")",
       body: resumo + "\n\nPlanilha: " + SpreadsheetApp.getActive().getUrl() });
 
     MailApp.sendEmail({ to: d.email, name: LOJA, replyTo: owner, subject: "Recebemos sua encomenda — " + d.produto,
-      body: "Olá, " + d.nome + "!\n\nRecebemos sua encomenda:\n\n" + resumo.split("\nNome:")[0] +
+      body: "Olá, " + d.nome + "!\n\nRecebemos sua encomenda:\n\n" + itens +
         "\n\nEntrarei em contato em breve pelo telefone/e-mail informado para combinar produção, prazo e pagamento.\n\n" + LOJA });
 
     return json({ ok: true });
@@ -47,6 +50,11 @@ function validate(d) {
   const q = Number(d.quantidade);
   if (!(q >= 1 && q <= 20)) throw new Error("quantidade inválida");
   d.quantidade = q;
+  if (d.preco != null && !(typeof d.preco === "number" && isFinite(d.preco) && d.preco >= 0 && d.preco < 1000000)) throw new Error("preço inválido");
+}
+
+function brl(n) {
+  return "R$ " + n.toFixed(2).replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
 // Confere o token do Cloudflare Turnstile. A chave secreta fica em
