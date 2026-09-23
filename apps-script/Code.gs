@@ -59,9 +59,11 @@ function brl(n) {
 
 // Confere o token do Cloudflare Turnstile. A chave secreta fica em
 // Configurações do projeto > Propriedades do script > TURNSTILE_SECRET.
-// Opcional: TURNSTILE_HOSTNAMES (lista separada por vírgula, ex.: "lucasleal.dev")
-// restringe em quais domínios o token pode ter sido gerado.
+// Domínios em que o token pode ter sido gerado. A propriedade do script
+// TURNSTILE_HOSTNAMES (lista separada por vírgula) substitui este padrão —
+// ex.: "lucasleal.dev,localhost" para testar localmente.
 const TURNSTILE_ACTION = "pedido";
+const TURNSTILE_HOSTNAMES_PADRAO = "lucasleal.dev";
 
 function verifyCaptcha(token) {
   const props = PropertiesService.getScriptProperties();
@@ -73,7 +75,7 @@ function verifyCaptcha(token) {
   });
   let r = {};
   try { r = JSON.parse(res.getContentText()); } catch (e) {}
-  const hosts = (props.getProperty("TURNSTILE_HOSTNAMES") || "").split(",").map(h => h.trim()).filter(Boolean);
+  const hosts = (props.getProperty("TURNSTILE_HOSTNAMES") || TURNSTILE_HOSTNAMES_PADRAO).split(",").map(h => h.trim()).filter(Boolean);
   if (r.success !== true || r.action !== TURNSTILE_ACTION || (hosts.length && hosts.indexOf(r.hostname) === -1)) {
     throw new Error("captcha");
   }

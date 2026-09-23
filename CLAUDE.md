@@ -26,7 +26,7 @@ Detalhes que exigem ler vários arquivos para entender:
 - O POST usa `Content-Type: text/plain` de propósito, para evitar preflight de CORS com o Apps Script. A resposta é JSON `{ok, error}`; `js/product.js` trata os erros especiais `"aguarde um instante"`, `"limite"` e `"captcha"` com mensagens próprias — se mudar esses códigos em `Code.gs`, atualizar `product.js`.
 - O preço vem do navegador (o Apps Script não tem acesso ao `products.json`); o back-end só valida que é número. O registro na planilha e nos e-mails é o preço combinado no momento do pedido, então **mudar o preço em `products.json` não afeta pedidos antigos**.
 - A honeypot (`website`) é só front-end; a proteção real contra requisições diretas ao endpoint é Turnstile + limites globais no `Code.gs`.
-- A chave secreta do Turnstile fica nas Propriedades do script (`TURNSTILE_SECRET`), nunca no repo. O widget usa `action: "pedido"` e o `Code.gs` rejeita tokens com outra action; a propriedade opcional `TURNSTILE_HOSTNAMES` (ex.: `lucasleal.dev`) também restringe o domínio de origem do token. `@OnlyCurrentDoc` no topo do `Code.gs` restringe a permissão à planilha vinculada.
+- A chave secreta do Turnstile fica nas Propriedades do script (`TURNSTILE_SECRET`), nunca no repo. O widget usa `action: "pedido"` e o `Code.gs` rejeita tokens com outra action; o domínio de origem do token também é checado contra `TURNSTILE_HOSTNAMES_PADRAO` (`lucasleal.dev`, constante no `Code.gs`); a propriedade do script `TURNSTILE_HOSTNAMES` substitui o padrão (ex.: `lucasleal.dev,localhost` para testar o envio localmente). `@OnlyCurrentDoc` no topo do `Code.gs` restringe a permissão à planilha vinculada.
 
 ## Adicionar produto
 
