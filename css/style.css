@@ -6,7 +6,7 @@ a{color:inherit}
 .wrap{max-width:1000px;margin:0 auto;padding:0 16px}
 header.site{border-bottom:1px solid var(--border);padding:16px 0}
 header.site a{font-weight:700;font-size:1.25rem;text-decoration:none}
-main{padding:28px 0 56px}
+main.wrap{padding-top:28px;padding-bottom:56px}
 h1{font-size:1.8rem;margin:0 0 4px}
 .lead{color:var(--muted);margin:0 0 24px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px}
