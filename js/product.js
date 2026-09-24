@@ -21,6 +21,7 @@ loadProducts().then(list => {
         <div class="thumbs">${p.imagens.map((src, i) => `
           <button type="button" data-src="${esc(src)}" aria-current="${i === 0}" aria-label="Foto ${i + 1}"><img src="${esc(src)}" alt=""></button>`).join("")}
         </div>
+        <p class="photo-note">As fotos são reais, da própria peça. Usamos IA apenas para melhorar a iluminação e o cenário, sem alterar a figura, para que você veja com mais clareza como ela é. As imagens não são geradas por IA.</p>
       </div>
       <div>
         <h1>${esc(p.nome)}</h1>

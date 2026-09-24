@@ -14,5 +14,21 @@
     "prazo": "10 dias",
     "imagens": ["images/joabinho-1.jpg", "images/joabinho-2.jpg"],
     "disponivel": true
+  },
+  {
+    "id": "jose-carpinteiro",
+    "nome": "José Carpinteiro",
+    "subtitulo": "Figura decorativa de José, o carpinteiro, em sua bancada de trabalho",
+    "descricao": "José, o carpinteiro de Nazaré, marido de Maria e pai de Jesus, é muitas vezes esquecido: não tem uma única fala registrada na Bíblia, e nem mesmo sua morte é narrada. Nesta figura ele aparece em silêncio, serrando a madeira sobre a bancada, cumprindo com fidelidade sua missão de cuidar do sustento Daquele que o chamou. Impressa em resina e pintada à mão.",
+    "detalhes": [
+      "Altura: 15 cm",
+      "Material: resina, pintada à mão",
+      "Bancada de carpinteiro inclusa",
+      "Feita sob encomenda"
+    ],
+    "preco": 159.00,
+    "prazo": "10 dias",
+    "imagens": ["images/jose-1.jpg", "images/jose-2.jpg"],
+    "disponivel": true
   }
 ]
