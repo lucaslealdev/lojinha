@@ -31,7 +31,7 @@ Detalhes que exigem ler vários arquivos para entender:
 
 ## Adicionar produto
 
-Novo bloco em `products.json` + fotos em `images/`. `preco: null` exibe "Preço sob consulta". `prazo` é só o número de dias (ex.: `"10 dias"`); as páginas montam a frase "… para confecção".
+Novo bloco em `products.json` + fotos em `images/`. `preco: null` exibe "Preço sob consulta". `prazo` é só o número de dias (ex.: `"10 dias"`); as páginas montam a frase "… para confecção". `prontaEntrega` (opcional, número) exibe a tag "N unidade(s) em pronta entrega"; atualizar à mão quando vender.
 
 ## Publicar mudanças do Apps Script (lojinha-deploy)
 

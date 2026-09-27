@@ -7,3 +7,4 @@ window.CONFIG = {
 window.esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 window.brl = n => n == null ? "Preço sob consulta" : n.toLocaleString("pt-BR", {style:"currency", currency:"BRL"});
 window.loadProducts = () => fetch("products.json").then(r => r.json());
+window.prontaEntregaTag = p => p.prontaEntrega > 0 ? `<span class="tag tag-pronta">${p.prontaEntrega} unidade${p.prontaEntrega > 1 ? "s" : ""} em pronta entrega</span>` : "";

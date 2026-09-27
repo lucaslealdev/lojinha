@@ -13,6 +13,7 @@
     "preco": 139.00,
     "prazo": "10 dias",
     "imagens": ["images/joabinho-1.jpg", "images/joabinho-2.jpg"],
+    "prontaEntrega": 1,
     "disponivel": true
   },
   {
@@ -45,6 +46,7 @@
     "preco": 49.00,
     "prazo": "10 dias",
     "imagens": ["images/jose-sem-pintura-1.jpg"],
+    "prontaEntrega": 1,
     "disponivel": true
   }
 ]

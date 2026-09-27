@@ -7,6 +7,7 @@ loadProducts().then(list => {
         <h2>${esc(p.nome)}</h2>
         <p>${esc(p.subtitulo)}</p>
         <div class="card-price">${brl(p.preco)}${p.preco == null ? "" : ' <small>+ frete</small>'}</div>
+        ${prontaEntregaTag(p)}
         <span class="tag">Sob encomenda · ${esc(p.prazo)} para confecção</span>
       </div>
     </a>`).join("") || "<p>Nenhum produto disponível no momento.</p>";

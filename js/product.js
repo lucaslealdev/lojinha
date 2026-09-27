@@ -36,6 +36,7 @@ loadProducts().then(list => {
           </div>
           <div id="frete-res" role="status"></div>
         </form>
+        ${prontaEntregaTag(p)}
         <span class="tag">Sob encomenda · ${esc(p.prazo)} para confecção, contados a partir do início da produção</span>
         <p>${esc(p.descricao)}</p>
         <ul class="det">${p.detalhes.map(d => `<li>${esc(d)}</li>`).join("")}</ul>
