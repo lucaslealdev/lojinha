@@ -27,6 +27,15 @@ loadProducts().then(list => {
         <h1>${esc(p.nome)}</h1>
         <p class="lead">${esc(p.subtitulo)}</p>
         <div class="price">${brl(p.preco)}</div>
+        <p class="shipping">Frete cobrado à parte; o valor varia conforme o CEP do comprador.</p>
+        <form class="frete" id="frete" novalidate>
+          <label for="cep">Estimar frete</label>
+          <div class="frete-row">
+            <input id="cep" name="cep" inputmode="numeric" autocomplete="postal-code" placeholder="00000-000" maxlength="9">
+            <button type="submit">Calcular</button>
+          </div>
+          <div id="frete-res" role="status"></div>
+        </form>
         <span class="tag">Sob encomenda · ${esc(p.prazo)} para confecção, contados a partir do início da produção</span>
         <p>${esc(p.descricao)}</p>
         <ul class="det">${p.detalhes.map(d => `<li>${esc(d)}</li>`).join("")}</ul>
@@ -54,6 +63,31 @@ loadProducts().then(list => {
   root.querySelectorAll(".thumbs button").forEach(b => b.onclick = () => {
     main.src = b.dataset.src;
     root.querySelectorAll(".thumbs button").forEach(x => x.setAttribute("aria-current", x === b));
+  });
+
+  const freteForm = document.getElementById("frete"), freteRes = document.getElementById("frete-res");
+  freteForm.addEventListener("submit", async e => {
+    e.preventDefault();
+    const cep = freteForm.cep.value.replace(/\D/g, "");
+    if (cep.length !== 8) { freteRes.className = "msg err"; freteRes.textContent = "Informe um CEP válido com 8 dígitos."; return; }
+    const fbtn = freteForm.querySelector("button");
+    fbtn.disabled = true; freteRes.className = ""; freteRes.textContent = "Calculando…";
+    try {
+      const res = await fetch(CONFIG.ORDER_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify({ acao: "frete", cep, valor: p.preco })
+      });
+      const data = await res.json();
+      if (!data.ok || !data.opcoes.length) throw new Error(data.error);
+      freteRes.className = "";
+      freteRes.innerHTML = `<ul class="frete-opcoes">${data.opcoes.map(o => `
+        <li><span>${esc(o.servico)}${o.prazo ? ` · ${o.prazo} dia${o.prazo > 1 ? "s" : ""} úteis` : ""}</span><strong>${brl(o.preco)}</strong></li>`).join("")}
+        </ul><p class="hint">Estimativa para 1 unidade, apenas como referência: o valor final do frete pode variar. O prazo de entrega conta a partir da postagem, depois da confecção.</p>`;
+    } catch (err) {
+      freteRes.className = "msg err";
+      freteRes.textContent = "Não foi possível estimar o frete agora. Confira o CEP ou tente novamente mais tarde.";
+    } finally { fbtn.disabled = false; }
   });
 
   mountTurnstile();

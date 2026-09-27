@@ -11,6 +11,7 @@ const MAX_POR_DIA = 40;   // cada pedido gera 2 e-mails; a cota gratuita é ~100
 function doPost(e) {
   try {
     const d = JSON.parse(e.postData.contents);
+    if (d.acao === "frete") return json({ ok: true, opcoes: cotarFrete(d.cep, d.valor) });
     validate(d);
     verifyCaptcha(d.token);
 
@@ -79,6 +80,47 @@ function verifyCaptcha(token) {
   if (r.success !== true || r.action !== TURNSTILE_ACTION || (hosts.length && hosts.indexOf(r.hostname) === -1)) {
     throw new Error("captcha");
   }
+}
+
+// Estimativa de frete pelo Melhor Envio. O token fica em
+// Configurações do projeto > Propriedades do script > MELHORENVIO_TOKEN.
+// Todos os produtos usam a mesma caixa (cm / kg), cotada para 1 unidade.
+const FRETE_CEP_ORIGEM = "12286410";
+const FRETE_CAIXA = { width: 16, height: 11, length: 25, weight: 0.3 };
+const MAX_COTACOES_POR_HORA = 300;
+
+function cotarFrete(cep, valor) {
+  cep = String(cep || "").replace(/\D/g, "");
+  if (cep.length !== 8) throw new Error("cep inválido");
+  valor = Number(valor);
+  if (!(isFinite(valor) && valor >= 0 && valor <= 1000)) valor = 0;
+  const cache = CacheService.getScriptCache(), key = "f3_" + cep + "_" + Math.round(valor);
+  const hit = cache.get(key);
+  if (hit) return JSON.parse(hit);
+
+  const hKey = "fh_" + Utilities.formatDate(new Date(), Session.getScriptTimeZone(), "yyyyMMddHH");
+  const n = Number(cache.get(hKey)) || 0;
+  if (n >= MAX_COTACOES_POR_HORA) throw new Error("limite");
+  cache.put(hKey, String(n + 1), 3600);
+
+  const token = PropertiesService.getScriptProperties().getProperty("MELHORENVIO_TOKEN");
+  if (!token) throw new Error("frete não configurado");
+  const res = UrlFetchApp.fetch("https://melhorenvio.com.br/api/v2/me/shipment/calculate", {
+    method: "post", contentType: "application/json", muteHttpExceptions: true,
+    headers: { Authorization: "Bearer " + token, Accept: "application/json",
+      "User-Agent": LOJA + " (" + Session.getEffectiveUser().getEmail() + ")" },
+    payload: JSON.stringify({ from: { postal_code: FRETE_CEP_ORIGEM }, to: { postal_code: cep },
+      package: FRETE_CAIXA, options: { insurance_value: valor, receipt: false, own_hand: false } })
+  });
+  let r;
+  try { r = JSON.parse(res.getContentText()); } catch (e) {}
+  if (res.getResponseCode() !== 200 || !Array.isArray(r)) throw new Error("frete indisponível");
+  const opcoes = r.filter(o => !o.error && o.price)
+    .map(o => ({ servico: (o.company && o.company.name ? o.company.name + " " : "") + o.name,
+      preco: Number(o.custom_price || o.price), prazo: Number(o.custom_delivery_time || o.delivery_time) || null }))
+    .sort((a, b) => a.preco - b.preco).slice(0, 5);
+  cache.put(key, JSON.stringify(opcoes), 21600);
+  return opcoes;
 }
 
 // Teto global de pedidos por hora e por dia (protege a cota de e-mails)

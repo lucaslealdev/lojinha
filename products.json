@@ -30,5 +30,21 @@
     "prazo": "10 dias",
     "imagens": ["images/jose-1.jpg", "images/jose-2.jpg"],
     "disponivel": true
+  },
+  {
+    "id": "jose-carpinteiro-sem-pintura",
+    "nome": "José Carpinteiro (sem pintura)",
+    "subtitulo": "Figura decorativa de José, o carpinteiro, em sua bancada de trabalho — versão sem pintura",
+    "descricao": "José, o carpinteiro de Nazaré, marido de Maria e pai de Jesus, é muitas vezes esquecido: não tem uma única fala registrada na Bíblia, e nem mesmo sua morte é narrada. Nesta figura ele aparece em silêncio, serrando a madeira sobre a bancada, cumprindo com fidelidade sua missão de cuidar do sustento Daquele que o chamou. Esta é a versão sem pintura, com acabamento em primer branco, que valoriza os detalhes da escultura.",
+    "detalhes": [
+      "Altura: 15 cm",
+      "Material: resina com primer branco, sem pintura",
+      "Bancada de carpinteiro inclusa",
+      "Feita sob encomenda"
+    ],
+    "preco": 49.00,
+    "prazo": "10 dias",
+    "imagens": ["images/jose-sem-pintura-1.jpg"],
+    "disponivel": true
   }
 ]
