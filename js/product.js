@@ -1,5 +1,9 @@
 const id = new URLSearchParams(location.search).get("id");
 const root = document.getElementById("root");
+const isVideo = src => /\.(mp4|webm|mov)$/i.test(src);
+const mediaTag = (src, cls, alt = "") => isVideo(src)
+  ? `<video class="${cls}" src="${esc(src)}" autoplay loop muted playsinline></video>`
+  : `<img class="${cls}" src="${esc(src)}" alt="${esc(alt)}">`;
 
 let widgetId = null;
 function mountTurnstile() {
@@ -17,9 +21,9 @@ loadProducts().then(list => {
     <a class="back" href="index.html">← Voltar ao catálogo</a>
     <div class="product">
       <div class="gallery">
-        <img class="main" id="main" src="${esc(p.imagens[0])}" alt="${esc(p.nome)}">
+        <div id="main">${mediaTag(p.imagens[0], "main", p.nome)}</div>
         <div class="thumbs">${p.imagens.map((src, i) => `
-          <button type="button" data-src="${esc(src)}" aria-current="${i === 0}" aria-label="Foto ${i + 1}"><img src="${esc(src)}" alt=""></button>`).join("")}
+          <button type="button" data-src="${esc(src)}" aria-current="${i === 0}" aria-label="Foto ${i + 1}">${mediaTag(src, "")}</button>`).join("")}
         </div>
         <p class="photo-note">As fotos são reais, da própria peça. Usamos IA apenas para melhorar a iluminação e o cenário, sem alterar a figura, para que você veja com mais clareza como ela é. As imagens não são geradas por IA.</p>
       </div>
@@ -62,7 +66,7 @@ loadProducts().then(list => {
 
   const main = document.getElementById("main");
   root.querySelectorAll(".thumbs button").forEach(b => b.onclick = () => {
-    main.src = b.dataset.src;
+    main.innerHTML = mediaTag(b.dataset.src, "main", p.nome);
     root.querySelectorAll(".thumbs button").forEach(x => x.setAttribute("aria-current", x === b));
   });
 
