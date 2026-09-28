@@ -12,7 +12,7 @@
     ],
     "preco": 139.00,
     "prazo": "10 dias",
-    "imagens": ["images/joabinho-1.jpg", "images/joabinho-2.jpg"],
+    "imagens": ["images/joabinho-1.jpg", "images/joabinho-2.jpg", "images/joabinho-pintura.gif"],
     "prontaEntrega": 1,
     "disponivel": true
   },
