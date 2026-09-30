@@ -13,6 +13,22 @@ function mountTurnstile() {
 }
 window.onTurnstile = mountTurnstile;
 
+// Tabela em base64: "<chave>:<n>" separados por ";". Ver CLAUDE.md.
+const _t = "MjJ1ZXFlZHp0dno6MTQx";
+const norm = s => String(s || "").toUpperCase().replace(/[^A-Z0-9]/g, "");
+const h53 = (str, seed) => {
+  let a = 0xdeadbeef ^ seed, b = 0x41c6ce57 ^ seed;
+  for (let i = 0; i < str.length; i++) { const c = str.charCodeAt(i); a = Math.imul(a ^ c, 2654435761); b = Math.imul(b ^ c, 1597334677); }
+  a = Math.imul(a ^ (a >>> 16), 2246822507) ^ Math.imul(b ^ (b >>> 13), 3266489909);
+  b = Math.imul(b ^ (b >>> 16), 2246822507) ^ Math.imul(a ^ (a >>> 13), 3266489909);
+  return 4294967296 * (2097151 & b) + (a >>> 0);
+};
+function lookup(code) {
+  if (!code) return 0;
+  const row = atob(_t).split(";").map(x => x.split(":")).find(x => x[0] === h53(code, 7).toString(36));
+  return row ? Number(row[1]) ^ (h53(code, 11) & 255) : 0;
+}
+
 loadProducts().then(list => {
   const p = list.find(x => x.id === id && x.disponivel);
   if (!p) { root.innerHTML = '<a class="back" href="index.html">← Voltar</a><p>Produto não encontrado.</p>'; return; }
@@ -30,7 +46,7 @@ loadProducts().then(list => {
       <div>
         <h1>${esc(p.nome)}</h1>
         <p class="lead">${esc(p.subtitulo)}</p>
-        <div class="price">${brl(p.preco)}</div>
+        <div class="price" id="price">${brl(p.preco)}</div>
         <p class="shipping">Frete cobrado à parte; o valor varia conforme o CEP do comprador.</p>
         <form class="frete" id="frete" novalidate>
           <label for="cep">Estimar frete</label>
@@ -56,6 +72,12 @@ loadProducts().then(list => {
           <input id="telefone" name="telefone" type="tel" inputmode="tel" autocomplete="tel" placeholder="(11) 91234-5678" required>
           <label for="quantidade">Quantidade</label>
           <input id="quantidade" name="quantidade" type="number" min="1" max="20" value="1" required>
+          ${p.preco == null ? "" : `<label for="cupom">Cupom de desconto (opcional)</label>
+          <div class="frete-row">
+            <input id="cupom" name="cupom" autocomplete="off" autocapitalize="characters" spellcheck="false">
+            <button type="button" id="cupom-btn">Aplicar</button>
+          </div>
+          <div id="cupom-res" role="status"></div>`}
           <div class="hp" aria-hidden="true"><label>Não preencha <input name="website" tabindex="-1" autocomplete="off"></label></div>
           <div id="ts" style="margin-top:14px"></div>
           <button class="submit" type="submit">Enviar encomenda</button>
@@ -95,6 +117,24 @@ loadProducts().then(list => {
     } finally { fbtn.disabled = false; }
   });
 
+  // Desconto aplicado: { c: código, d: percentual }
+  let desconto = null;
+  const priceEl = document.getElementById("price"), cupomIn = document.getElementById("cupom"), cupomRes = document.getElementById("cupom-res");
+  const precoFinal = () => desconto ? Math.round(p.preco * (100 - desconto.d)) / 100 : p.preco;
+  const aplicarCupom = async () => {
+    const c = norm(cupomIn.value);
+    const d = lookup(c);
+    desconto = d ? { c, d } : null;
+    priceEl.innerHTML = desconto ? `<s class="old">${brl(p.preco)}</s> ${brl(precoFinal())}` : brl(p.preco);
+    cupomRes.className = c ? "msg " + (d ? "ok" : "err") : "";
+    cupomRes.textContent = !c ? "" : d ? `Cupom ${c} aplicado: ${d}% de desconto.` : "Cupom inválido.";
+    return !c || !!d;
+  };
+  if (cupomIn) {
+    document.getElementById("cupom-btn").onclick = aplicarCupom;
+    cupomIn.addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); aplicarCupom(); } });
+  }
+
   mountTurnstile();
   const form = document.getElementById("order"), msg = document.getElementById("msg"), btn = form.querySelector(".submit");
   const show = (cls, text) => { msg.className = "msg " + cls; msg.textContent = text; };
@@ -110,6 +150,8 @@ loadProducts().then(list => {
     const qtd = parseInt(f.quantidade, 10);
     if (!(qtd >= 1 && qtd <= 20)) return show("err", "Quantidade inválida.");
 
+    if (cupomIn && norm(cupomIn.value) !== (desconto?.c || "") && !(await aplicarCupom())) return show("err", "Cupom inválido. Corrija ou apague o campo.");
+
     const token = widgetId !== null ? turnstile.getResponse(widgetId) : "";
     if (!token) return show("err", "Confirme que você não é um robô antes de enviar.");
 
@@ -120,7 +162,7 @@ loadProducts().then(list => {
       const res = await fetch(CONFIG.ORDER_ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "text/plain;charset=utf-8" },
-        body: JSON.stringify({ produtoId: p.id, produto: p.nome, nome: f.nome.trim(), email: f.email.trim(), telefone: f.telefone.trim(), quantidade: qtd, preco: p.preco, token })
+        body: JSON.stringify({ produtoId: p.id, produto: p.nome, nome: f.nome.trim(), email: f.email.trim(), telefone: f.telefone.trim(), quantidade: qtd, preco: precoFinal(), cupom: desconto?.c || "", desconto: desconto?.d || 0, token })
       });
       const data = await res.json();
       if (!data.ok && data.error === "aguarde um instante") {
@@ -134,6 +176,7 @@ loadProducts().then(list => {
       }
       if (!data.ok) throw new Error(data.error || "erro");
       form.reset();
+      if (cupomIn) aplicarCupom();
       show("ok", "Encomenda recebida! Enviamos uma confirmação para o seu e-mail e entrarei em contato em breve.");
     } catch (err) {
       show("err", "Não foi possível enviar agora. Tente novamente em instantes.");

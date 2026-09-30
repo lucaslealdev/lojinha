@@ -33,6 +33,16 @@ Detalhes que exigem ler vários arquivos para entender:
 
 Novo bloco em `products.json` + fotos em `images/`. `preco: null` exibe "Preço sob consulta". `prazo` é só o número de dias (ex.: `"10 dias"`); as páginas montam a frase "… para confecção". `prontaEntrega` (opcional, número) exibe a tag "N unidade(s) em pronta entrega"; atualizar à mão quando vender.
 
+## Cupons
+
+Validados só no front-end (`js/product.js`), sem lista legível no código: a constante `_t` é um base64 de entradas `<chave>:<n>` separadas por `;`, onde `chave` é `h53(CÓDIGO, 7)` em base 36 (código em maiúsculas, só A-Z/0-9) e `n` é o percentual em XOR com `h53(CÓDIGO, 11) & 255`. `h53` é um hash em JS puro (não usar `crypto.subtle`, que não existe fora de HTTPS/localhost — ex.: teste pelo IP da rede). Para gerar uma entrada (ex.: FALACARAS, 15%):
+
+```
+node -e 'eval(require("fs").readFileSync("js/product.js","utf8").match(/const h53[\s\S]*?\n};\n/)[0] + ";globalThis.h53=h53"); const c="FALACARAS", p=15; console.log(h53(c,7).toString(36) + ":" + (p ^ (h53(c,11) & 255)))'
+```
+
+Juntar as entradas com `;` e passar por `printf '%s' '...' | base64 -w0`. O pedido envia `preco` já com desconto, mais `cupom` e `desconto`; o `Code.gs` só valida o formato e grava na coluna **Cupom** (10ª, criada automaticamente no cabeçalho de planilhas antigas) e nos e-mails.
+
 ## Publicar mudanças do Apps Script (lojinha-deploy)
 
 Existe um projeto **fora deste repo**, em `~/lojinha-deploy/`, que envia o `apps-script/Code.gs` para o Apps Script via `clasp` e atualiza a implantação existente (a URL de `ORDER_ENDPOINT` não muda). Ele guarda o ID do script e o ID da implantação; o login do clasp (`~/.clasprc.json`) também fica fora do repo — nunca copiar nada disso para cá.

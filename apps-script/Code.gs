@@ -3,7 +3,7 @@
 // Deve ser criado a partir de Extensões > Apps Script dentro da planilha de pedidos.
 
 const SHEET_NAME = "Pedidos";
-const HEADERS = ["Data", "Produto", "Qtd", "Nome", "E-mail", "Telefone", "Preço unit.", "Status", "Observações"];
+const HEADERS = ["Data", "Produto", "Qtd", "Nome", "E-mail", "Telefone", "Preço unit.", "Status", "Observações", "Cupom"];
 const LOJA = "Lojinha";
 const MAX_POR_HORA = 15;  // pedidos verificados por hora (todos os clientes somados)
 const MAX_POR_DIA = 40;   // cada pedido gera 2 e-mails; a cota gratuita é ~100/dia
@@ -21,13 +21,14 @@ function doPost(e) {
       throttle(d.email);
       checkGlobalLimit();
       const sheet = getSheet();
-      sheet.appendRow([new Date(), d.produto, d.quantidade, d.nome, d.email, d.telefone, d.preco == null ? "" : d.preco, "Novo", ""]);
+      sheet.appendRow([new Date(), d.produto, d.quantidade, d.nome, d.email, d.telefone, d.preco == null ? "" : d.preco, "Novo", "", cupomTxt(d)]);
       sheet.getRange(sheet.getLastRow(), 7).setNumberFormat('"R$" #,##0.00');
     } finally { lock.releaseLock(); }
 
     const owner = Session.getEffectiveUser().getEmail();
     const itens = "Produto: " + d.produto + "\nQuantidade: " + d.quantidade +
       "\nPreço unitário: " + (d.preco == null ? "sob consulta" : brl(d.preco)) +
+      (d.cupom ? "\nCupom: " + cupomTxt(d) + " (desconto já aplicado ao preço)" : "") +
       (d.preco == null ? "" : "\nTotal: " + brl(d.preco * d.quantidade));
     const resumo = itens + "\nNome: " + d.nome + "\nE-mail: " + d.email + "\nTelefone: " + d.telefone;
 
@@ -52,6 +53,13 @@ function validate(d) {
   if (!(q >= 1 && q <= 20)) throw new Error("quantidade inválida");
   d.quantidade = q;
   if (d.preco != null && !(typeof d.preco === "number" && isFinite(d.preco) && d.preco >= 0 && d.preco < 1000000)) throw new Error("preço inválido");
+  // Cupom é opcional e validado só no front-end; aqui só confere o formato.
+  if (d.cupom != null && d.cupom !== "" && !(typeof d.cupom === "string" && /^[A-Z0-9]{1,30}$/.test(d.cupom))) throw new Error("dados inválidos");
+  if (d.cupom && !(typeof d.desconto === "number" && d.desconto > 0 && d.desconto <= 100)) throw new Error("dados inválidos");
+}
+
+function cupomTxt(d) {
+  return d.cupom ? d.cupom + " (-" + d.desconto + "%)" : "";
 }
 
 function brl(n) {
@@ -154,6 +162,9 @@ function getSheet() {
     sh.getRange(1, 1, 1, HEADERS.length).setFontWeight("bold");
     sh.getRange(2, 8, 500).setDataValidation(SpreadsheetApp.newDataValidation()
       .requireValueInList(["Novo", "Em contato", "Em produção", "Pronto", "Entregue", "Cancelado"], true).build());
+  }
+  if (!sh.getRange(1, HEADERS.length).getValue()) {
+    sh.getRange(1, HEADERS.length).setValue(HEADERS[HEADERS.length - 1]).setFontWeight("bold");
   }
   return sh;
 }
