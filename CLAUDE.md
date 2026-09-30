@@ -4,7 +4,16 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Projeto
 
-Catálogo online de figuras decorativas em resina, vendidas **sob encomenda** (sem estoque). Site 100% estático, sem build, sem dependências, sem testes, sem back-end próprio. Textos e mensagens ao usuário são em português (pt-BR).
+Catálogo online de figuras decorativas em resina, vendidas **sob encomenda** (algumas peças também têm unidades em pronta entrega). Site 100% estático, sem build, sem dependências, sem testes, sem back-end próprio. Textos e mensagens ao usuário são em português (pt-BR).
+
+O catálogo reúne figuras colecionáveis (ex.: Joabinho, do canal Fala Caras) e arte sacra (José Carpinteiro, Maria Neogótica). As peças sacras costumam ter duas versões: pintada à mão e sem pintura. A lista atual está sempre em `products.json`.
+
+### O que buscamos
+
+- **Vender encomendas passando confiança:** fotos reais da peça (a nota sobre IA na galeria explica que ela só melhora a luz e o cenário), prazo contado a partir do início da produção, aviso de fila e nenhum pagamento antes de a peça ficar pronta. Mantenha essa transparência em textos novos.
+- **Valorizar o artesanal:** a página inicial explica a resina x filamento, as etapas do processo e a pintura à mão; as descrições falam da técnica e da história ou estilo da peça, num tom sóbrio e cuidadoso, sem exageros de marketing.
+- **Custo e manutenção perto de zero:** continuar estático (GitHub Pages + Apps Script + planilha), sem framework, build ou serviço pago. Proteção contra abuso com Turnstile e limites, não com back-end próprio.
+- **Pedido simples:** o cliente deixa os dados e o dono entra em contato para combinar produção, pagamento e frete (a estimativa de frete é só referência).
 
 ## Rodar localmente
 
@@ -32,6 +41,10 @@ Detalhes que exigem ler vários arquivos para entender:
 ## Adicionar produto
 
 Novo bloco em `products.json` + fotos em `images/`. `preco: null` exibe "Preço sob consulta". `prazo` é só o número de dias (ex.: `"10 dias"`); as páginas montam a frase "… para confecção". `pintada` (booleano) escolhe o rótulo "Pintada à mão · Peça única" ou "Sem pintura · Acabamento em primer" no catálogo e o quadro explicativo na página do produto. `prontaEntrega` (opcional, número) exibe a tag "N unidade(s) em pronta entrega"; atualizar à mão quando vender.
+
+- **Versão sem pintura:** é um produto separado, com id `<id>-sem-pintura`, nome `<Nome> (sem pintura)`, `pintada: false` e a mesma descrição da pintada, trocando o parágrafo final da pintura pelo texto padrão da versão sem pintura ("passa pelas mesmas etapas… recebe primer branco…"). O acabamento é sempre **primer branco**, mesmo quando a foto parece cinza. O preço padrão até agora é R$ 49,00.
+- **Fotos:** podem ter qualquer proporção. Na página do produto, a imagem principal mantém a proporção original (limitada a 80vh); as miniaturas e os cartões do catálogo são quadrados, com recorte. Vídeos (`.mp4`/`.webm`/`.mov`) também entram em `imagens`.
+- **Formato do `products.json`:** preços com duas casas (`119.00`) e `imagens` numa linha só. Ao editar por script, não reformatar os blocos existentes.
 
 ## Cupons
 

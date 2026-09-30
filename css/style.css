@@ -95,7 +95,7 @@ em{font-style:italic}
 .product{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
 @media(max-width:820px){.product{grid-template-columns:1fr;gap:28px}}
 .product h1{font-size:2.5rem;font-weight:500}
-.gallery .main{display:block;width:100%;aspect-ratio:1;object-fit:cover;border:1px solid var(--border);background:#fff}
+.gallery .main{display:block;width:100%;height:auto;max-height:80vh;object-fit:contain;border:1px solid var(--border);background:#fff}
 .thumbs{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
 .thumbs button{padding:0;border:1px solid var(--border);border-radius:0;overflow:hidden;cursor:pointer;background:none;width:72px;height:72px;opacity:.65;transition:opacity .15s}
 .thumbs button:hover{opacity:1}

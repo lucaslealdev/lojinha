@@ -51,5 +51,41 @@
     "imagens": ["images/jose-sem-pintura-1.jpg"],
     "prontaEntrega": 1,
     "disponivel": true
+  },
+  {
+    "id": "maria-neogotica",
+    "nome": "Maria Neogótica",
+    "subtitulo": "Figura de Maria em oração, em estilo neogótico barroco",
+    "descricao": "Maria em oração, com as mãos postas e o terço pendendo até a cruz, envolta num manto de rendas, flores e arabescos em relevo. A peça une duas tradições da arte sacra: do barroco vem a riqueza ornamental do manto, e do neogótico, a base octogonal com arcos ogivais que lembram os vitrais e as capelas das catedrais. Impressa em resina de alta resolução e pintada à mão em preto, com a orla do manto, o terço e a cruz realçados em dourado.",
+    "detalhes": [
+      "Altura: 17 cm",
+      "Resina de alta resolução, pintada à mão em preto e dourado",
+      "Base octogonal com arcos ogivais",
+      "Produzida sob encomenda, peça por peça"
+    ],
+    "pintada": true,
+    "preco": 119.00,
+    "prazo": "10 dias",
+    "imagens": ["images/maria-neogotico-1.jpeg", "images/maria-neogotico-2.jpeg"],
+    "prontaEntrega": 1,
+    "disponivel": true
+  },
+  {
+    "id": "maria-neogotica-sem-pintura",
+    "nome": "Maria Neogótica (sem pintura)",
+    "subtitulo": "Figura de Maria em oração, em estilo neogótico barroco — versão sem pintura",
+    "descricao": "Maria em oração, com as mãos postas e o terço pendendo até a cruz, envolta num manto de rendas, flores e arabescos em relevo. A peça une duas tradições da arte sacra: do barroco vem a riqueza ornamental do manto, e do neogótico, a base octogonal com arcos ogivais que lembram os vitrais e as capelas das catedrais. Esta é a versão sem pintura: passa pelas mesmas etapas de impressão, cura e acabamento à mão da versão pintada e recebe primer branco, que deixa à mostra cada detalhe da escultura. Ideal para quem aprecia o aspecto de escultura ou deseja pintá-la.",
+    "detalhes": [
+      "Altura: 17 cm",
+      "Resina de alta resolução com primer branco, sem pintura",
+      "Base octogonal com arcos ogivais",
+      "Produzida sob encomenda, peça por peça"
+    ],
+    "pintada": false,
+    "preco": 49.00,
+    "prazo": "10 dias",
+    "imagens": ["images/maria-neogotico-sempintura-1.jpeg", "images/maria-neogotico-sempintura-2.jpeg"],
+    "prontaEntrega": 1,
+    "disponivel": true
   }
 ]
