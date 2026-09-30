@@ -2,14 +2,15 @@
   {
     "id": "joabinho",
     "nome": "Joabinho Saiyajin",
-    "subtitulo": "Figura decorativa do Joab, do canal Fala Caras",
-    "descricao": "Figura decorativa em resina no estilo colecionável, com o Joab em seu clássico cosplay de saiyajin. Impressa em resina e pintada à mão, tem base transparente para exposição.",
+    "subtitulo": "Figura colecionável do Joab, do canal Fala Caras",
+    "descricao": "Figura colecionável do Joab em seu clássico cosplay de saiyajin. Impressa em resina de alta resolução e pintada à mão, com sombras, luzes e o brilho da armadura trabalhados no pincel. Acompanha base transparente para exposição.",
     "detalhes": [
       "Altura: 15,6 cm",
-      "Material: resina, pintada à mão",
+      "Resina de alta resolução, pintada à mão",
       "Base transparente inclusa",
-      "Feita sob encomenda"
+      "Produzida sob encomenda, peça por peça"
     ],
+    "pintada": true,
     "preco": 139.00,
     "prazo": "10 dias",
     "imagens": ["images/joabinho-1.jpg", "images/joabinho-2.jpg", "images/joabinho-pintura.mp4"],
@@ -19,14 +20,15 @@
   {
     "id": "jose-carpinteiro",
     "nome": "José Carpinteiro",
-    "subtitulo": "Figura decorativa de José, o carpinteiro, em sua bancada de trabalho",
-    "descricao": "José, o carpinteiro de Nazaré, marido de Maria e pai de Jesus, é muitas vezes esquecido: não tem uma única fala registrada na Bíblia, e nem mesmo sua morte é narrada. Nesta figura ele aparece em silêncio, serrando a madeira sobre a bancada, cumprindo com fidelidade sua missão de cuidar do sustento Daquele que o chamou. Impressa em resina e pintada à mão.",
+    "subtitulo": "Figura de José, o carpinteiro, em sua bancada de trabalho",
+    "descricao": "José, o carpinteiro de Nazaré, marido de Maria e pai de Jesus, é muitas vezes esquecido: não tem uma única fala registrada na Bíblia, e nem mesmo sua morte é narrada. Nesta figura ele aparece em silêncio, serrando a madeira sobre a bancada, cumprindo com fidelidade sua missão de cuidar do sustento Daquele que o chamou. Impressa em resina de alta resolução e pintada à mão, com os tons de madeira, tecido e pele construídos em camadas.",
     "detalhes": [
       "Altura: 15 cm",
-      "Material: resina, pintada à mão",
+      "Resina de alta resolução, pintada à mão",
       "Bancada de carpinteiro inclusa",
-      "Feita sob encomenda"
+      "Produzida sob encomenda, peça por peça"
     ],
+    "pintada": true,
     "preco": 159.00,
     "prazo": "10 dias",
     "imagens": ["images/jose-1.jpg", "images/jose-2.jpg"],
@@ -35,14 +37,15 @@
   {
     "id": "jose-carpinteiro-sem-pintura",
     "nome": "José Carpinteiro (sem pintura)",
-    "subtitulo": "Figura decorativa de José, o carpinteiro, em sua bancada de trabalho — versão sem pintura",
-    "descricao": "José, o carpinteiro de Nazaré, marido de Maria e pai de Jesus, é muitas vezes esquecido: não tem uma única fala registrada na Bíblia, e nem mesmo sua morte é narrada. Nesta figura ele aparece em silêncio, serrando a madeira sobre a bancada, cumprindo com fidelidade sua missão de cuidar do sustento Daquele que o chamou. Esta é a versão sem pintura, com acabamento em primer branco, que valoriza os detalhes da escultura.",
+    "subtitulo": "Figura de José, o carpinteiro, em sua bancada de trabalho — versão sem pintura",
+    "descricao": "José, o carpinteiro de Nazaré, marido de Maria e pai de Jesus, é muitas vezes esquecido: não tem uma única fala registrada na Bíblia, e nem mesmo sua morte é narrada. Nesta figura ele aparece em silêncio, serrando a madeira sobre a bancada, cumprindo com fidelidade sua missão de cuidar do sustento Daquele que o chamou. Esta é a versão sem pintura: passa pelas mesmas etapas de impressão, cura e acabamento à mão da versão pintada e recebe primer branco, que deixa à mostra cada detalhe da escultura. Ideal para quem aprecia o aspecto de escultura ou deseja pintá-la.",
     "detalhes": [
       "Altura: 15 cm",
-      "Material: resina com primer branco, sem pintura",
+      "Resina de alta resolução com primer branco, sem pintura",
       "Bancada de carpinteiro inclusa",
-      "Feita sob encomenda"
+      "Produzida sob encomenda, peça por peça"
     ],
+    "pintada": false,
     "preco": 49.00,
     "prazo": "10 dias",
     "imagens": ["images/jose-sem-pintura-1.jpg"],

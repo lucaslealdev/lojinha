@@ -3,18 +3,111 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Lojinha — Figuras em Resina</title>
-<meta name="description" content="Figuras decorativas impressas em resina e pintadas à mão, feitas sob encomenda.">
+<title>Lojinha — Figuras em resina pintadas à mão</title>
+<meta name="description" content="Figuras em resina de alta resolução, finalizadas e pintadas à mão, peça por peça, sob encomenda.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@400;500&display=swap">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-<header class="site"><div class="wrap"><a href="index.html">Lojinha</a></div></header>
-<main class="wrap">
-  <h1>Figuras em resina</h1>
-  <p class="lead">Peças decorativas impressas em resina e pintadas à mão. Tudo feito sob encomenda.</p>
-  <div class="grid" id="grid"><p>Carregando…</p></div>
+<header class="site"><div class="wrap">
+  <a class="brand" href="index.html"><strong>Lojinha</strong><span>Ateliê de figuras em resina</span></a>
+  <nav><a href="#pecas">Peças</a><a href="#resina">O processo</a></nav>
+</div></header>
+<main>
+  <section class="wrap hero">
+    <p class="eyebrow">Impressas em resina · Finalizadas à mão</p>
+    <h1>Esculturas em miniatura, <em>pintadas à mão</em>, uma a uma.</h1>
+    <p class="lead">Cada figura é produzida sob encomenda: impressa em resina de alta resolução, finalizada à mão e, nas versões pintadas, trabalhada por horas no pincel até ganhar vida própria.</p>
+    <div class="actions">
+      <a class="btn" href="#pecas">Ver as peças</a>
+      <a class="btn ghost" href="#resina">Como são feitas</a>
+    </div>
+  </section>
+
+  <section class="wrap section" id="pecas" style="padding-top:8px">
+    <div class="section-head">
+      <p class="eyebrow">Acervo</p>
+      <h2>As peças</h2>
+    </div>
+    <div class="grid" id="grid"><p>Carregando…</p></div>
+  </section>
+
+  <section class="band section" id="resina">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Sobre a resina</p>
+        <h2>Nem toda impressão 3D é igual</h2>
+        <p class="lead">Quando se fala em impressão 3D, quase todo mundo pensa nas impressoras de filamento, que derretem fios de plástico. As figuras daqui nascem de outro processo: mais lento, mais trabalhoso e incomparavelmente mais preciso.</p>
+      </div>
+      <div class="compare" role="table" aria-label="Comparação entre impressão em filamento e em resina">
+        <div class="row head" role="row">
+          <div class="label" role="columnheader"></div>
+          <div class="fdm" role="columnheader">Filamento<small>A impressão 3D comum</small></div>
+          <div class="resina" role="columnheader">Resina<small>O processo destas peças</small></div>
+        </div>
+        <div class="row" role="row">
+          <div class="label" role="rowheader">Como funciona</div>
+          <div class="fdm" role="cell">Plástico derretido, depositado em fios</div>
+          <div class="resina" role="cell">Resina líquida solidificada por luz UV</div>
+        </div>
+        <div class="row" role="row">
+          <div class="label" role="rowheader">Camadas</div>
+          <div class="fdm" role="cell">Cerca de 0,2 mm, visíveis a olho nu</div>
+          <div class="resina" role="cell">0,05 mm ou menos, praticamente imperceptíveis</div>
+        </div>
+        <div class="row" role="row">
+          <div class="label" role="rowheader">Detalhes</div>
+          <div class="fdm" role="cell">Rostos, dedos e dobras de tecido saem arredondados</div>
+          <div class="resina" role="cell">Expressões, fios de cabelo e texturas nítidos como em escultura</div>
+        </div>
+        <div class="row" role="row">
+          <div class="label" role="rowheader">Depois de impressa</div>
+          <div class="fdm" role="cell">A peça sai pronta da impressora e é em geral vendida sem acabamento</div>
+          <div class="resina" role="cell">Lavagem, cura, remoção de suportes, lixa e primer, tudo à mão</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap section">
+    <div class="section-head">
+      <p class="eyebrow">Do arquivo à estante</p>
+      <h2>Por que cada peça leva dias</h2>
+      <p class="lead">A impressora é só uma das etapas. O que transforma a resina em figura é o trabalho que vem antes e, principalmente, depois dela.</p>
+    </div>
+    <ol class="steps">
+      <li><h3>Preparação</h3><p>O modelo é orientado e recebe suportes posicionados um a um, para que nenhum detalhe se perca durante a impressão.</p></li>
+      <li><h3>Impressão</h3><p>Horas na impressora, camada por camada, com uma resina que só pode ser manuseada com luvas e máscara.</p></li>
+      <li><h3>Lavagem e cura</h3><p>A peça é lavada em álcool isopropílico e curada sob luz UV até atingir a firmeza definitiva.</p></li>
+      <li><h3>Acabamento</h3><p>Os suportes são retirados à mão e as marcas lixadas com cuidado, preservando cada relevo da escultura.</p></li>
+      <li><h3>Primer</h3><p>Uma camada de primer uniformiza a superfície e revela o que ainda precisa de ajuste. As versões sem pintura são entregues aqui.</p></li>
+      <li><h3>Pintura</h3><p>Horas de pincel: cores de base, sombras, luzes e os pequenos detalhes que dão expressão ao rosto.</p></li>
+    </ol>
+    <div class="note"><p><strong>Mesmo sem pintura, não é uma peça de plástico comum.</strong> As versões em primer passam por todas as etapas de impressão e acabamento à mão, com a mesma riqueza de detalhes: ficam com aspecto de escultura e prontas para quem quiser pintá-las.</p></div>
+  </section>
+
+  <section class="band section">
+    <div class="wrap art">
+      <figure>
+        <video data-src="images/joabinho-pintura.mp4" poster="images/joabinho-pintura-poster.jpg" loop muted playsinline preload="none" aria-label="Pintura à mão do Joabinho Saiyajin"></video>
+        <figcaption>O Joabinho Saiyajin na bancada, durante a pintura.</figcaption>
+      </figure>
+      <div>
+        <p class="eyebrow">Peças pintadas</p>
+        <h2>Pintura à mão é arte, e arte não se repete</h2>
+        <p>Nas versões pintadas, cada figura é trabalhada individualmente, com pincel, em várias camadas de tinta. São horas de pintura e acabamento dedicadas a uma única peça.</p>
+        <blockquote>Não existem duas iguais.</blockquote>
+        <p>As variações sutis de tom e de pincelada entre um exemplar e outro não são defeito: são a marca de uma peça feita à mão. Você não leva uma cópia saída de uma máquina, leva uma obra que foi olhada, pensada e acabada por uma pessoa.</p>
+      </div>
+    </div>
+  </section>
 </main>
-<footer><div class="wrap">@lucaslealdev - figuras sob encomenda</div></footer>
+<footer><div class="wrap">
+  <p>Figuras em resina, impressas e pintadas à mão sob encomenda.</p>
+  <p>@lucaslealdev</p>
+</div></footer>
 <script src="js/config.js"></script>
 <script src="js/catalog.js"></script>
 </body>

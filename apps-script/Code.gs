@@ -37,7 +37,7 @@ function doPost(e) {
 
     MailApp.sendEmail({ to: d.email, name: LOJA, replyTo: owner, subject: "Recebemos sua encomenda — " + d.produto,
       body: "Olá, " + d.nome + "!\n\nRecebemos sua encomenda:\n\n" + itens +
-        "\n\nEntrarei em contato em breve pelo telefone/e-mail informado para combinar produção, prazo e pagamento.\n\n" + LOJA });
+        "\n\nCada peça é produzida individualmente, impressa em resina e finalizada à mão. Entrarei em contato em breve pelo telefone/e-mail informado para combinarmos produção, prazo e pagamento.\n\nObrigado por encomendar uma peça feita à mão!\n\n" + LOJA });
 
     return json({ ok: true });
   } catch (err) {

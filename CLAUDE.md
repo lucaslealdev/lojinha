@@ -18,7 +18,7 @@ Não há lint nem suite de testes. O Turnstile só carrega em domínios cadastra
 
 Duas metades ligadas por um único POST:
 
-- **Front-end (raiz do repo, publicado via GitHub Pages):** `index.html` (catálogo) e `produto.html?id=<id>` (página do produto + formulário de encomenda). O HTML é só casca; `js/catalog.js` e `js/product.js` renderizam tudo a partir de `products.json` (fonte única dos produtos: nome, descrição, preço, prazo, imagens). `js/config.js` guarda `ORDER_ENDPOINT` (URL do Apps Script) e `TURNSTILE_SITEKEY`, além de helpers globais (`esc`, `brl`, `loadProducts`).
+- **Front-end (raiz do repo, publicado via GitHub Pages):** `index.html` (catálogo + seções fixas sobre resina x filamento, etapas do processo e pintura à mão, com o vídeo `images/joabinho-pintura.mp4` carregado só ao aparecer na tela) e `produto.html?id=<id>` (página do produto + formulário de encomenda). O HTML é só casca; `js/catalog.js` e `js/product.js` renderizam tudo a partir de `products.json` (fonte única dos produtos: nome, descrição, preço, prazo, imagens). `js/config.js` guarda `ORDER_ENDPOINT` (URL do Apps Script) e `TURNSTILE_SITEKEY`, além de helpers globais (`esc`, `brl`, `loadProducts`).
 - **Back-end (`apps-script/Code.gs`):** Google Apps Script vinculado a uma planilha, publicado como app da Web ("Executar como: eu", acesso "Qualquer pessoa"). `doPost` valida o payload, confere o token Turnstile na Cloudflare, aplica limites (1 pedido/minuto por e-mail e teto global por hora/dia), grava uma linha na aba **Pedidos** (com o preço unitário vigente no momento do pedido) e envia dois e-mails: aviso ao dono e confirmação ao cliente.
 
 Detalhes que exigem ler vários arquivos para entender:
@@ -31,7 +31,7 @@ Detalhes que exigem ler vários arquivos para entender:
 
 ## Adicionar produto
 
-Novo bloco em `products.json` + fotos em `images/`. `preco: null` exibe "Preço sob consulta". `prazo` é só o número de dias (ex.: `"10 dias"`); as páginas montam a frase "… para confecção". `prontaEntrega` (opcional, número) exibe a tag "N unidade(s) em pronta entrega"; atualizar à mão quando vender.
+Novo bloco em `products.json` + fotos em `images/`. `preco: null` exibe "Preço sob consulta". `prazo` é só o número de dias (ex.: `"10 dias"`); as páginas montam a frase "… para confecção". `pintada` (booleano) escolhe o rótulo "Pintada à mão · Peça única" ou "Sem pintura · Acabamento em primer" no catálogo e o quadro explicativo na página do produto. `prontaEntrega` (opcional, número) exibe a tag "N unidade(s) em pronta entrega"; atualizar à mão quando vender.
 
 ## Cupons
 

@@ -31,19 +31,20 @@ function lookup(code) {
 
 loadProducts().then(list => {
   const p = list.find(x => x.id === id && x.disponivel);
-  if (!p) { root.innerHTML = '<a class="back" href="index.html">← Voltar</a><p>Produto não encontrado.</p>'; return; }
+  if (!p) { root.innerHTML = '<a class="back" href="index.html">← Voltar</a><p>Peça não encontrada.</p>'; return; }
   document.title = p.nome + " — Lojinha";
   root.innerHTML = `
-    <a class="back" href="index.html">← Voltar ao catálogo</a>
+    <a class="back" href="index.html#pecas">← Todas as peças</a>
     <div class="product">
       <div class="gallery">
         <div id="main">${mediaTag(p.imagens[0], "main", p.nome)}</div>
         <div class="thumbs">${p.imagens.map((src, i) => `
           <button type="button" data-src="${esc(src)}" aria-current="${i === 0}" aria-label="Foto ${i + 1}">${mediaTag(src, "")}</button>`).join("")}
         </div>
-        <p class="photo-note">As fotos são reais, da própria peça. Usamos IA apenas para melhorar a iluminação e o cenário, sem alterar a figura, para que você veja com mais clareza como ela é. As imagens não são geradas por IA.</p>
+        <p class="photo-note">As fotos são reais, da própria peça. Usamos IA apenas para melhorar a iluminação e o cenário, sem alterar a figura, para que você a veja com mais clareza. As imagens não são geradas por IA.</p>
       </div>
       <div>
+        <p class="eyebrow">${p.pintada ? "Pintada à mão · Peça única" : "Sem pintura · Acabamento em primer"}</p>
         <h1>${esc(p.nome)}</h1>
         <p class="lead">${esc(p.subtitulo)}</p>
         <div class="price" id="price">${brl(p.preco)}</div>
@@ -58,11 +59,15 @@ loadProducts().then(list => {
         </form>
         ${prontaEntregaTag(p)}
         <span class="tag">Sob encomenda · ${esc(p.prazo)} para confecção, contados a partir do início da produção</span>
-        <p>${esc(p.descricao)}</p>
+        <p class="descr">${esc(p.descricao)}</p>
         <ul class="det">${p.detalhes.map(d => `<li>${esc(d)}</li>`).join("")}</ul>
+        <div class="craft">${p.pintada
+          ? `<h2>Uma peça única</h2><p>Cada exemplar é pintado individualmente, à mão, ao longo de horas de trabalho. Por isso, pequenas variações de tom e de pincelada em relação às fotos são naturais: é o que faz a sua figura ser só sua.</p>`
+          : `<h2>Sem pintura, com o mesmo cuidado</h2><p>Impressa em resina de alta resolução, lavada, curada, lixada à mão e finalizada com primer: todos os detalhes da escultura aparecem, prontos para exposição ou para receber a sua própria pintura.</p>`}
+          <a href="index.html#resina">Conheça o processo →</a></div>
         <form id="order" novalidate>
-          <h2>Fazer encomenda</h2>
-          <p class="hint">Preencha seus dados e entrarei em contato para combinar produção, prazo e pagamento.</p>
+          <h2>Encomendar esta peça</h2>
+          <p class="hint">Deixe seus dados e entrarei em contato para combinarmos os detalhes da produção, o prazo e o pagamento.</p>
           <p class="hint">Pode haver fila de produção, então a confecção pode não começar imediatamente. Nenhum pagamento é exigido antes de a encomenda estar pronta.</p>
           <label for="nome">Nome</label>
           <input id="nome" name="nome" autocomplete="name" required>
@@ -80,7 +85,7 @@ loadProducts().then(list => {
           <div id="cupom-res" role="status"></div>`}
           <div class="hp" aria-hidden="true"><label>Não preencha <input name="website" tabindex="-1" autocomplete="off"></label></div>
           <div id="ts" style="margin-top:14px"></div>
-          <button class="submit" type="submit">Enviar encomenda</button>
+          <button class="submit" type="submit">Solicitar encomenda</button>
           <div class="msg" id="msg" role="status"></div>
         </form>
       </div>
@@ -177,12 +182,12 @@ loadProducts().then(list => {
       if (!data.ok) throw new Error(data.error || "erro");
       form.reset();
       if (cupomIn) aplicarCupom();
-      show("ok", "Encomenda recebida! Enviamos uma confirmação para o seu e-mail e entrarei em contato em breve.");
+      show("ok", "Encomenda recebida! Enviamos uma confirmação para o seu e-mail e entrarei em contato em breve para começarmos a sua peça.");
     } catch (err) {
       show("err", "Não foi possível enviar agora. Tente novamente em instantes.");
     } finally {
       if (widgetId !== null) turnstile.reset(widgetId);
-      btn.disabled = false; btn.textContent = "Enviar encomenda";
+      btn.disabled = false; btn.textContent = "Solicitar encomenda";
     }
   });
 }).catch(() => { root.textContent = "Não foi possível carregar o produto."; });
